@@ -1,34 +1,16 @@
 const { test, expect } = require("@playwright/test");
-const { timeout } = require("../playwright.config");
 import data from "../payload/data.json";
 import api from "../payload/api.json";
 
 exports.MarketPage = class MarketPage {
   constructor(page) {
     this.page = page;
-    //this.genericLink = (linkText)=> page.getByRole('link', { name:`${linkText}` });
-    //this.marketLink = page.locator('div > ul > li:nth-child(2) > a');
     this.marketLink = page.getByRole('link', { name: 'MARKET' });
-    this.headingMarket = page.getByRole('heading', { name: 'Market' });
-    this.headingCategories = page.getByRole('heading', { name: 'Categories' });
-    this.linkCheese = page.getByRole('link', { name: 'Cheese' });
-    this.linkSeaFood = page.getByRole('link', { name: 'SeaFood' });
-    this.linkGrocery = page.getByRole('link', { name: 'Grocery' });
-    this.linkDairy = page.getByRole('link', { name: 'Dairy' });
-    this.linkBottledBeverage = page.getByRole('link', { name: 'Bottled Beverage' });
-    this.linkSnacks = page.getByRole('link', { name: 'Snacks' });
-    this.linkConfection = page.getByRole('link', { name: 'Confection' });
-    this.linkHomegoods = page.getByRole('link', { name: 'Homegoods' });
-    this.linkBakery = page.getByRole('link', { name: 'Bakery' });
-    this.linkCharcuterie = page.getByRole('link', { name: 'Charcuterie' });
-    this.linkProduce = page.getByRole('link', { name: 'Produce' });
-    this.linkButcher = page.getByRole('link', { name: 'Butcher' });
-    this.linkPasta = page.getByRole('link', { name: 'Pasta' });
     this.linkContact = page.getByRole('link', { name: 'Contact' });
     this.itemAvocado = page.getByRole('listitem').filter({ hasText: 'Avocado' }).getByRole('button', { name: 'Add Item' })
     this.cartButton = page.getByRole('button', { name: 'Order Now' });
   }
-  async validateLinksInMarketPage(page, request) {
+  async validateLinksInMarketPage(page) {
     console.log(data.links.length);
     for (let i = 0; i < data.links.length; i++) {
       console.log(data.links[i]);

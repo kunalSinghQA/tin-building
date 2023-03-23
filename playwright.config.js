@@ -36,11 +36,9 @@ module.exports = defineConfig({
   reporter: process.env.REPORTER,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    facebookUsername:process.env.FACEBOOK_USERNAME,
-    facebookPassword:process.env.FACEBOOK_PASSWORD,
-    gmailUsername:process.env.GMAIL_USERNAME,
-    gmailPassword:process.env.GMAIL_PASSWORD,
-    baseURL: process.env.TIN_URL,
+    username: process.env.USERNAME,
+    password: process.env.PASSWORD,
+    baseURL: process.env.BASE_URL,
     headless: process.env.HEADLESS == "headless",
     viewport: {
       width: 1280,

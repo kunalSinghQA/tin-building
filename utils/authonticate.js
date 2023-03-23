@@ -14,6 +14,24 @@ export function buildStorageFilePath(userKeys) {
   return sessionUtils.storageFileLocation + file;
 }
 
+export async function gmailLogin(config) {
+
+}
+
+export async function facebookLogin(config) {
+  await page.getByRole("button", { name: "Log in with Facebook" }).click();
+  await expect(
+    page.getByPlaceholder("Email address or phone number")
+  ).toBeVisible();
+  await page
+    .getByPlaceholder("Email address or phone number")
+    .fill(config.Username);
+  await page.locator("#loginform div").nth(1).click();
+  await page.getByPlaceholder("Password").click();
+  await page.getByPlaceholder("Password").fill(config.Password);
+  await page.getByRole("button", { name: "Log in" }).click();
+}
+
 export async function authenticateWebCP(config, userKeys) {
   const browser = await chromium.launch();
   const page = await browser.newPage();
@@ -22,22 +40,17 @@ export async function authenticateWebCP(config, userKeys) {
   await expect(page.getByRole("button", { name: "Accept" })).toBeVisible();
   await page.getByRole("button", { name: "Accept" }).click();
   await page.waitForTimeout(1000);
-  await page.screenshot({ path: 'screenshot.png' });
   await expect(page.getByRole("button", { name: "Log In" })).toBeVisible();
   await page.getByRole("button", { name: "Log In" }).click();
   await page.waitForTimeout(2000);
-  await page.getByRole("button", { name: "Log in with Facebook" }).click();
-  await expect(
-    page.getByPlaceholder("Email address or phone number")
-  ).toBeVisible();
-  await page
-    .getByPlaceholder("Email address or phone number")
-    .fill(config.facebookUsername);
-  await page.locator("#loginform div").nth(1).click();
-  await page.getByPlaceholder("Password").click();
-  await page.getByPlaceholder("Password").fill(config.facebookPassword);
-  await page.getByRole("button", { name: "Log in" }).click();
-  await page.waitForTimeout(2000);
+  // Login With Facebook
+  if (userKeys.username == "facebook_username") {
+    await facebookLogin(config);
+  }
+  // Login with Gmail
+  if (userKeys.username == "gmail_username") {
+    await gmailLogin(config);
+  }
   await sessionUtils.saveSession(page, storageStatePath);
   await browser.close();
 }
